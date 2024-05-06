@@ -7,21 +7,11 @@ verificador = True
 def calcula_gorjeta(valor, numero_pessoas, total_extra):
     valor_total = (valor / numero_pessoas) + total_extra
     return valor_total
-    verificador = input("Você deseja pagar algum percentual de gorjeta? s/n")
-    if(verificador == 's'):
-        percent_gorjeta = input("Qual o percentual que voce deseja passar?")
-    verificador = input("Você deseja pagar algum extra? s/n")
-    if(verificador == 's'):
-        extra = input("Qual o total extra que voce deseja passar?")
-    total_extra = valor * (percent_gorjeta / 100) + extra
-    valor_total = calcula_gorjeta(valor, numero_pessoas, total_extra)
-    print(valor_total)
-
 def tabelaComanda():
     # layout
     layout = [
         [sg.Text('Qual o valor da sua comanda?')],
-        [sg.Text('Digite O valor'), sg.InputText()],
+        [sg.Text('Digite o valor'), sg.InputText()],
         [sg.Button('OK'), sg.Button('Sair')]
     ]
     # janela
@@ -51,7 +41,6 @@ def tabelaDividir():
     while True:
         event, values = window.read()
         numero_pessoas = int(values[0])
-        print(numero_pessoas)
         if(event == sg.WIN_CLOSED or event == 'Sair'):
             window.close()
             break
@@ -72,7 +61,6 @@ def tabelaGorjeta():
     while True:
         event, values = window.read()
         percent_gorjeta = int(values[0])
-        print(percent_gorjeta)
         if(event == sg.WIN_CLOSED or event == 'Sair'):
             window.close()
             break
@@ -93,7 +81,6 @@ def tabelaExtra():
     while True:
         event, values = window.read()
         extra = int(values[0])
-        print(percent_gorjeta)
         if(event == sg.WIN_CLOSED or event == 'Sair'):
             window.close()
             break
@@ -104,10 +91,13 @@ def tabelaExtra():
 def tabelaValor(valor, extra, valor_total, pessoas):
     # layout
     layout = [
-        [sg.Text((f"O valor total da comanda deu R${valor}"), font=('Arial', 25), border_width=5, background_color='grey')],
-        [sg.Text((f"O valor dos acrecimos R$ {extra}"), font=('Arial', 25), border_width=5, background_color='grey')],
-        [sg.Text((f"O valor total foi R${valor_total}"), font=('Arial', 25), border_width=5, background_color='grey')],
-        [sg.Text((f"Cada um devera pagar R${pessoas}"), font=('Arial', 25), border_width=5, background_color='grey')],
+        [sg.Text((f"O valor total da comanda deu R${valor}"), font=('Arial', 25), border_width=5)],
+        [sg.HorizontalSeparator()],
+        [sg.Text((f"O valor dos acrecimos R$ {extra}"), font=('Arial', 25), border_width=5)],
+        [sg.HorizontalSeparator()],
+        [sg.Text((f"O valor total foi R${valor_total}"), font=('Arial', 25), border_width=5)],
+        [sg.HorizontalSeparator()],
+        [sg.Text((f"Cada um devera pagar R${pessoas}"), font=('Arial', 25), border_width=5)],
         [sg.Button('Pagar')]
     ]
     # janela
