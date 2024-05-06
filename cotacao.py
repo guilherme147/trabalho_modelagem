@@ -82,6 +82,7 @@ def paginaValor():
 def paginaInicial():
     layout1 = [
         [sg.Text(("Valor das moedas atualizado"), font=('Arial', 25), border_width=5, text_color='grey')],
+        [sg.Text('', pad=(0,10))],
         [sg.HorizontalSeparator()],
         [sg.Text('', pad=(0,10))],
         [sg.Button('Converter moedas', size=(15,3), key='conversao'),sg.Text('', pad=(20,0)), sg.Button('Valor das moedas', size=(15,3), key='moedas')],
@@ -95,17 +96,20 @@ def paginaInicial():
             window.close()
             break
         if(event == 'conversao'):
-            paginaConversao()
             window.close()
+            paginaConversao()
             break
         if(event == 'moedas'):
-            paginaValor()
             window.close()
+            paginaValor()
             break
 def paginaConversao():
     cotacao = 0.0
+    moeda = ''
     layout = [
-        [sg.Text('Digite o valor a converter em reais'), sg.InputText()],
+        [sg.Text('Digite o valor a converter em reais', text_color='grey' ,font=('Arial', 20))],
+        [sg.Text('R$',text_color='grey', font=('Arial', 12)),sg.InputText(background_color='grey', text_color='white')],
+        [sg.Text('', pad=(0,10))],
         [sg.HorizontalSeparator()],
         [sg.Text('', pad=(0,10))],
         [sg.Button('Dolar', size=(15,3), key='USD'), sg.Text('', pad=(2,0)), sg.Button('Euro', size=(15,3), key='EUR'), sg.Text('', pad=(2,0)), sg.Button('Libra', size=(15,3), key='GBP')],
@@ -113,8 +117,8 @@ def paginaConversao():
         [sg.Button('Iene', size=(15,3), key='JPY'),sg.Text('', pad=(2,0)), sg.Button('Bitcoin', size=(15,3), key='BTC'),sg.Text('', pad=(2,0)), sg.Button('Etherium', size=(15,3), key='ETH')],
         [sg.Text('', pad=(0,10))],
         [sg.HorizontalSeparator()],
-        [sg.Text((f"Valor da moeda {moeda}"), font=('Arial', 25), border_width=5, key='moeda', text_color='grey')],
-        [sg.Text((f"R${cotacao}"), font=('Arial', 25), border_width=5, key='cotacao', text_color='grey')],
+        [sg.Text((f"{moeda}"), font=('Arial', 25), border_width=5, key='moeda', text_color='grey')],
+        [sg.Text((f"{cotacao}"), font=('Arial', 25), border_width=5, key='cotacao', text_color='grey')],
     ]
     window = sg.Window('registro', layout, size=(500,500), element_justification='center')
     while True:
@@ -128,37 +132,43 @@ def paginaConversao():
         if(event == 'USD'):
             moeda = 'Dólar'
             cotacao_dolar = requisicao_dic["USDBRL"]["bid"]
-            valorConversao = cotacao_dolar / valorReais
+            valorConversao = float(valorReais) / float(cotacao_dolar)  
+            valorConversao = str(valorConversao)
             window['moeda'].update(moeda)
-            window['cotacao'].update("R$"+valorConversao)
+            window['cotacao'].update("$"+valorConversao)
         if(event == 'BTC'):
             moeda = 'Bitcoin'
             cotacao_bitcoin = requisicao_dic["BTCBRL"]["bid"]
-            valorConversao = cotacao_bitcoin / valorReais
+            valorConversao =  float(valorReais) / float(cotacao_bitcoin)
+            valorConversao = str(valorConversao)  
             window['moeda'].update(moeda)
-            window['cotacao'].update("R$"+valorConversao)
+            window['cotacao'].update("BTC "+valorConversao)
         if(event == 'ETH'):
             moeda = 'Etherium'
             cotacao_etherium = requisicao_dic["ETHBRL"]["bid"]
-            valorConversao = cotacao_etherium / valorReais
+            valorConversao =  float(valorReais) / float(cotacao_etherium)
+            valorConversao = str(valorConversao)
             window['moeda'].update(moeda)
-            window['cotacao'].update("R$"+valorConversao)
+            window['cotacao'].update("ETH "+valorConversao)
         if(event == 'EUR'):
             moeda = 'Euro'
             cotacao_euro = requisicao_dic["EURBRL"]["bid"]
-            valorConversao = cotacao_euro / valorReais
+            valorConversao =  float(valorReais) / float(cotacao_euro)
+            valorConversao = str(valorConversao)
             window['moeda'].update(moeda)
-            window['cotacao'].update("R$"+valorConversao)
+            window['cotacao'].update("€"+valorConversao)
         if(event == 'GBP'):
             moeda = 'Libra'
             cotacao_libra = requisicao_dic["GBPBRL"]["bid"]
-            valorConversao = cotacao_libra / valorReais
+            valorConversao =  float(valorReais) / float(cotacao_libra)
+            valorConversao = str(valorConversao)
             window['moeda'].update(moeda)
-            window['cotacao'].update("R$"+valorConversao)
+            window['cotacao'].update("£"+valorConversao)
         if(event == 'JPY'):
             moeda = 'Iene'
             cotacao_iene = requisicao_dic["JPYBRL"]["bid"]
-            valorConversao = cotacao_iene / valorReais
+            valorConversao =  float(valorReais) / float(cotacao_iene)
+            valorConversao = str(valorConversao)
             window['moeda'].update(moeda)
-            window['cotacao'].update("R$"+valorConversao)
-paginaValor()
+            window['cotacao'].update("¥"+valorConversao)
+paginaInicial()
