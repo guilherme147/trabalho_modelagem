@@ -1,9 +1,5 @@
 import mysql.connector
-<<<<<<< HEAD
 from mysql.connector import Error
-import pandas as pd
-=======
->>>>>>> 63c1f20bc7226733b386432a73e4ae5bcc819e59
 import PySimpleGUI as sg
 
 # Conectar ao banco de dados
@@ -31,9 +27,6 @@ def atualizar_cotacao(moeda, valor):
     cursor.execute(query)
     mydb.commit()
 
-# Tema do PySimpleGUI
-sg.theme('Reddit')
-<<<<<<< HEAD
 def criarConexao(host_name, user_name, user_password):
     connection = None
     try:
@@ -73,6 +66,20 @@ def paginaValor():
         if(event == sg.WIN_CLOSED):
             window.close()
             break
+         #while True:
+            event, values = window.read()
+            if(event == sg.WIN_CLOSED):
+                window.close()
+                break
+            if(event in ['USD', 'EUR', 'GBP', 'JPY', 'BTC', 'ETH']):
+                moeda = event
+                cotacao = buscar_cotacao(moeda)
+                if cotacao is not None:
+                    window['moeda'].update(f"Valor da moeda {moeda}")
+                    window['cotacao'].update(f"R${cotacao}")
+                else:
+                    sg.popup(f"Cotação da moeda {moeda} não encontrada no banco de dados")
+
         if(event == 'USD'):
             moeda = 'Dólar'
             cotacao_dolar = #\request valor my sql
@@ -207,26 +214,8 @@ def paginaConversao():
             valorConversao = str(valorConversao)
             window['moeda'].update(moeda)
             window['cotacao'].update("¥"+valorConversao)
-connection = criarConexao("localhost", "root", "root")
-paginaInicial()
-=======
+# Tema do PySimpleGUI
 
-# Layout
-layout = [
-    [sg.Text(("Valor das moedas atualizado"), font=('Arial', 25), border_width=5, text_color='grey')],
-    [sg.HorizontalSeparator()],
-    [sg.Text('', pad=(0,10))],
-    [sg.Button('Dolar', size=(15,3), key='USD'), sg.Text('', pad=(2,0)), sg.Button('Euro', size=(15,3), key='EUR'), sg.Text('', pad=(2,0)), sg.Button('Libra', size=(15,3), key='GBP')],
-    [sg.Text('', pad=(0,10))],
-    [sg.Button('Iene', size=(15,3), key='JPY'),sg.Text('', pad=(2,0)), sg.Button('Bitcoin', size=(15,3), key='BTC'),sg.Text('', pad=(2,0)), sg.Button('Etherium', size=(15,3), key='ETH')],
-    [sg.Text('', pad=(0,10))],
-    [sg.HorizontalSeparator()],
-    [sg.Text((f"Valor da moeda"), font=('Arial', 25), border_width=5, key='moeda', text_color='grey')],
-    [sg.Text((""), font=('Arial', 25), border_width=5, key='cotacao', text_color='grey')]
-]
-
-# Janela
-window = sg.Window('registro', layout, size=(500,500), element_justification='center')
 
 # Funcionamento
 while True:
@@ -242,4 +231,3 @@ while True:
             window['cotacao'].update(f"R${cotacao}")
         else:
             sg.popup(f"Cotação da moeda {moeda} não encontrada no banco de dados")
->>>>>>> 63c1f20bc7226733b386432a73e4ae5bcc819e59
