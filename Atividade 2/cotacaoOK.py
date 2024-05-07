@@ -82,7 +82,7 @@ def paginaValor():
 
         if(event == 'USD'):
             moeda = 'Dólar'
-            cotacao_dolar = #\request valor my sql
+            cotacao_dolar = 
             cotacao = cotacao_dolar
             cotacao = str(cotacao).replace('.',',')
             window['moeda'].update(moeda)
