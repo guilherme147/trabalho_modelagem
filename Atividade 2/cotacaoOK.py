@@ -93,6 +93,24 @@ def buscar_cotacao(moeda):
         return result[0]
     else:
         return None
+def historico_cotacao():
+    historico = []
+    result = 0
+    cursor = connection.cursor()
+    cursor.execute(f"SELECT COUNT(*) FROM conversao")
+    contador = cursor.fetchone()[0]
+    for i in range(contador):
+        query = f"SELECT * FROM conversao WHERE idCONVERSAO = '{i}'"
+        cursor.execute(query)
+        result = cursor.fetchone()
+        historico.append(result)
+        print(historico[i])
+    if result != 0:
+        
+        return historico
+    else:
+        sg.popup("Sem Historico de conversão")
+        paginaInicial()
 # Função para atualizar cotação no banco de dados
 def atualizar_cotacao(moeda, valor):
     query = f"UPDATE moeda SET valor_moeda = '{valor}' WHERE moeda = '{moeda}'"
@@ -192,6 +210,8 @@ def paginaInicial():
         [sg.Text('', pad=(0,10))],
         [sg.Button('Converter moedas', size=(15,3), key='conversao'),sg.Text('', pad=(20,0)), sg.Button('Valor das moedas', size=(15,3), key='moedas')],
         [sg.Text('', pad=(0,10))],
+        [sg.Button('Historico conversoes', size=(15,3), key='historico')],
+        [sg.Text('', pad=(0,10))],
         [sg.HorizontalSeparator()],
     ]
     window = sg.Window('registro', layout1, size=(500,500), element_justification='center')
@@ -207,6 +227,10 @@ def paginaInicial():
         if(event == 'moedas'):
             window.close()
             paginaValor()
+            break
+        if(event == 'historico'):
+            window.close()
+            paginaHistorico()
             break
 def paginaConversao():
     cotacao = 0.0
@@ -317,6 +341,25 @@ def paginaConversao():
                 '''
             criarTabela(connection, query)
             connection.commit()
+def paginaHistorico():
+    historico = historico_cotacao()
+    layout = [
+        [sg.Text((f"R${historico[0][1]} para {historico[0][2]} e a data {historico[0][3]}"), font=('Arial', 18), border_width=5, background_color='grey')],
+        [sg.Text((f"R${historico[2][1]} para {historico[2][2]} e a data {historico[][3]}"), font=('Arial', 18), border_width=5, background_color='grey')],
+        [sg.Text((f"R${historico[3][1]} para {historico[3][2]} e a data {historico[3][3]}"), font=('Arial', 18), border_width=5, background_color='grey')],
+        [sg.Text((f"R${historico[4][1]} para {historico[4][2]} e a data {historico[4][3]}"), font=('Arial', 18), border_width=5, background_color='grey')],
+        [sg.Text((f"R${historico[4][1]} para {historico[4][2]} e a data {historico[4][3]}"), font=('Arial', 18), border_width=5, background_color='grey')],
+        [sg.Button('Mostrar mais'), sg.Button('Voltar a pagina inicial')]
+    ]
+    window = sg.Window('registro', layout)
+    while True:
+        event, values = window.read()
+        if(event == sg.WIN_CLOSED):
+            window.close()
+            break
+        if(event == 'Mostrar mais'):
+            window.close()
+            break  
 # Tema do PySimpleGUI
 
 
@@ -333,6 +376,5 @@ def paginaConversao():
 #             window['cotacao'].update(f"R${cotacao}")
 #         else:
 #             sg.popup(f"Cotação da moeda {moeda} não encontrada no banco de dados")
-
 
 paginaInicial()
